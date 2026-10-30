@@ -1,0 +1,150 @@
+// Shared layout for every section. Text sits beside the particle cloud, never on it
+// (docs/design.md, principle 2), so each section pins its copy to an edge.
+
+.section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  min-height: 100svh;
+  padding: var(--gutter);
+  display: flex;
+  flex-direction: column;
+}
+
+.bottom {
+  justify-content: flex-end;
+}
+
+.center {
+  justify-content: center;
+
+  // Portrait screens: the particle cloud fills the upper half, so copy drops below it.
+  @media (max-aspect-ratio: 1/1) {
+    justify-content: flex-end;
+  }
+}
+
+.tall {
+  min-height: 120vh;
+}
+
+// Hero
+.heroRow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem 2rem;
+}
+
+.name {
+  font-size: var(--text-name);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+  margin-left: -0.04em;
+}
+
+.role {
+  max-width: 18ch;
+  color: var(--ash);
+  font-size: var(--text-line);
+  line-height: 1.2;
+  padding-bottom: 0.4em;
+}
+
+// Statement / how I work
+.statement {
+  max-width: 22ch;
+  font-size: var(--text-statement);
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+}
+
+.howIWork {
+  max-width: 24ch;
+  font-size: var(--text-statement);
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  color: var(--ash);
+}
+
+// One-line section captions (world, India)
+.line {
+  font-size: var(--text-line);
+  letter-spacing: -0.01em;
+  line-height: 1.25;
+}
+
+.muted {
+  color: var(--ash);
+}
+
+// Learning
+.learning {
+  max-width: 34rem;
+  display: grid;
+  gap: 1.25rem;
+}
+
+.marks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.35rem;
+  color: var(--ash);
+}
+
+// Work list
+.workHead {
+  display: grid;
+  gap: 0.35rem;
+  margin-bottom: clamp(2rem, 6vh, 4rem);
+}
+
+// Contact
+.contact {
+  display: grid;
+  gap: 1rem;
+}
+
+.email {
+  font-size: clamp(1.6rem, 6vw, 5rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+  word-break: break-all;
+
+  @media (min-width: 640px) {
+    word-break: normal;
+  }
+}
+
+.inlineLink {
+  text-decoration: underline;
+  text-decoration-color: var(--seam);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color 0.3s ease;
+
+  &:hover {
+    text-decoration-color: currentColor;
+  }
+}
+
+// Footer
+.footer {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 0.25rem;
+  padding: var(--gutter);
+  font-size: var(--text-small);
+  color: var(--ash);
+  letter-spacing: 0.01em;
+
+  @media (min-width: 720px) {
+    grid-template-columns: 1fr auto;
+    align-items: end;
+  }
+}

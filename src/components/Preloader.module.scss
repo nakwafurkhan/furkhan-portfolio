@@ -1,0 +1,79 @@
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: var(--graphite);
+  transition: opacity 0.8s var(--ease-out);
+
+  &[data-phase="exit"] {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.count {
+  grid-area: 1 / 1;
+  font-size: var(--text-small);
+  color: var(--ash);
+  font-variant-numeric: tabular-nums;
+  transition: opacity 0.4s ease;
+
+  .preloader:not([data-phase="count"]) & {
+    opacity: 0;
+  }
+}
+
+.name {
+  grid-area: 1 / 1;
+  display: flex;
+  padding: 0 var(--gutter);
+  font-size: clamp(1.75rem, 6vw, 5.5rem);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.char {
+  display: inline-block;
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(0.15em);
+  transition:
+    opacity 0.7s var(--ease-out),
+    filter 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+  transition-delay: calc(var(--i) * 28ms);
+
+  .preloader:not([data-phase="count"]) & {
+    opacity: 1;
+    filter: blur(0);
+    transform: none;
+  }
+}
+
+.keep {
+  display: inline-flex;
+}
+
+// Middle names fold away: width collapses while the letters blur out.
+.middle {
+  display: inline-flex;
+  max-width: 4.2em;
+  overflow: hidden;
+  transition: max-width 1s var(--ease-in-out);
+
+  .preloader[data-phase="collapse"] &,
+  .preloader[data-phase="exit"] & {
+    max-width: 0;
+
+    .char {
+      opacity: 0;
+      filter: blur(10px);
+      transition-delay: 0s;
+      transition-duration: 0.5s;
+    }
+  }
+}

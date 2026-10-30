@@ -1,0 +1,129 @@
+// Tokens from docs/design.md. Change them there first.
+:root {
+  --graphite: #222124;
+  --bone: #ece8e1;
+  --ash: #8d8992;
+  --seam: #36343a;
+  --lamp: #f4d9b0;
+
+  --text-name: clamp(3rem, 14vw, 11rem);
+  --text-statement: clamp(1.75rem, 3.6vw, 3rem);
+  --text-line: clamp(1.25rem, 2.2vw, 1.75rem);
+  --text-small: 0.8125rem;
+
+  --gutter: clamp(16px, 4vw, 48px);
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--graphite);
+  color: var(--bone);
+  font-family: var(--font-inter-tight), system-ui, sans-serif;
+  font-size: 1rem;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+
+  &[data-preloading="true"] {
+    overflow: hidden;
+  }
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+  font-weight: inherit;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--bone);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+::selection {
+  background: var(--lamp);
+  color: var(--graphite);
+}
+
+.has-custom-cursor,
+.has-custom-cursor a,
+.has-custom-cursor button {
+  cursor: none;
+}
+
+// TextReveal (src/components/TextReveal.tsx)
+.reveal-chars-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.reveal-mask {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding: 0.08em 0;
+  margin: -0.08em 0;
+}
+
+.reveal-word,
+.reveal-char {
+  display: inline-block;
+  transition-timing-function: var(--ease-out);
+}
+
+.reveal-word {
+  transform: translateY(105%);
+  transition-property: transform;
+  transition-duration: 1s;
+  transition-delay: calc(var(--delay, 0s) + var(--i) * 40ms);
+}
+
+.reveal-char {
+  opacity: 0;
+  filter: blur(10px);
+  transition-property: opacity, filter;
+  transition-duration: 0.9s;
+  transition-delay: calc(var(--delay, 0s) + var(--i) * 35ms);
+}
+
+.reveal.is-visible {
+  .reveal-word {
+    transform: none;
+  }
+
+  .reveal-char {
+    opacity: 1;
+    filter: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-word,
+  .reveal-char {
+    transform: none;
+    opacity: 1;
+    filter: none;
+    transition: none;
+  }
+}

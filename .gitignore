@@ -35,3 +35,7 @@ next-env.d.ts
 
 # local Claude Code settings
 .claude/settings.local.json
+
+# raw personal source files (only generated assets are committed)
+/assets/Profile.pdf
+/assets/portrait.jpg
