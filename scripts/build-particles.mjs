@@ -1,5 +1,7 @@
 // Builds public/particles.bin (face → globe → India point clouds) and public/noise.png.
-// Run with `npm run particles`. Inputs: assets/portrait.jpg (gitignored), world-atlas.
+// Run with `npm run particles`. Inputs: assets/portrait.jpg (gitignored), world-atlas (globe),
+// scripts/data/india-official.geojson (India outline per India's official boundaries,
+// extracted from Natural Earth's India point-of-view countries file).
 //
 // particles.bin layout (little-endian):
 //   0  char[4]  "PTCL"
@@ -26,7 +28,7 @@ const COUNT = 20000;
 const SCALE = 1 / 8000; // int16 range covers ±4 world units
 const PORTRAIT = path.join(root, "assets/portrait.jpg");
 const UDUPI = [74.7421, 13.3409]; // lon, lat
-const INDIA_ID = "356";
+const INDIA_GEOJSON = path.join(root, "scripts/data/india-official.geojson");
 
 // Seeded PRNG so rebuilds are stable and diffs stay small.
 let seed = 1337;
@@ -244,10 +246,9 @@ const bounds = (pts) =>
     .join(" ");
 
 const land110 = require("world-atlas/land-110m.json");
-const countries50 = require("world-atlas/countries-50m.json");
 const land = feature(land110, land110.objects.land);
-const india = feature(countries50, countries50.objects.countries).features.find((f) => f.id === INDIA_ID);
-if (!india) throw new Error("India (id 356) not found in world-atlas countries-50m");
+// world-atlas draws de facto borders; India's map must use India's official boundary.
+const india = JSON.parse(fs.readFileSync(INDIA_GEOJSON, "utf8"));
 
 const face = bandSort(await buildFace());
 const globe = bandSort(buildGlobe(land));
